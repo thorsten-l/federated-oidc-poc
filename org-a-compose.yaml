@@ -1,0 +1,89 @@
+
+services:
+
+  fop-org-a-kcdb:
+    image: postgres:${POSTGRES_VERSION}
+    restart: unless-stopped
+    container_name: fop-org-a-kcdb
+    environment:
+      - POSTGRES_PASSWORD=keycloak
+      - POSTGRES_USER=keycloak
+      - POSTGRES_DB=keycloak
+    volumes:
+      - ./var/org-a/kcdb:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U keycloak"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  fop-org-a-keycloak:
+    image: quay.io/keycloak/keycloak:${KEYCLOAK_VERSION}
+    restart: unless-stopped
+    container_name: fop-org-a-keycloak
+    command: >
+      start 
+      --debug 
+      --log-level=INFO,org.apache.http:DEBUG,org.keycloak.services.managers:DEBUG,l9g:TRACE,org.hibernate:INFO,org.keycloak.transaction:INFO,org.keycloak.saml:TRACE,org.keycloak.protocol.oidc:TRACE
+    environment:
+      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=admin123
+      - KC_DB=postgres
+      - KC_DB_PASSWORD=keycloak
+      - KC_DB_USERNAME=keycloak
+      - KC_DB_URL_HOST=fop-org-a-kcdb
+      - KC_DB_URL_PORT=5432
+      - KC_DB_URL_DATABASE=keycloak
+      - KC_HTTP_ENABLED=true
+      - KC_HOSTNAME_STRICT=false
+      - KC_PROXY_HEADERS=xforwarded
+      - KC_HEALTH_ENABLED=true
+      - JAVA_OPTS_APPEND=-Xmx4g -Xms1g
+    volumes:
+      - ./HealthCheck.java:/HealthCheck.java:ro
+    depends_on:
+      fop-org-a-kcdb:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD-SHELL', 'java /HealthCheck.java http://localhost:9000/health/ready']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  fop-org-a-nginx:
+    image: nginx:1
+    container_name: fop-org-a-nginx
+    hostname: idp-org-a.dev.sonia.de
+    restart: unless-stopped
+    ports:
+      - "20443:443"
+    volumes:
+# certs
+      - ./certs:/etc/kccerts:ro
+# configuration
+      - ./data/org-a/kcfront/etc/proxy.conf:/etc/nginx/proxy.conf:ro
+      - ./data/org-a/kcfront/etc/ssl.conf:/etc/nginx/ssl.conf:ro
+      - ./data/org-a/kcfront/etc/idp-org-a.dev.sonia.de.conf:/etc/nginx/conf.d/idp-org-a.dev.sonia.de.conf:ro
+# various data
+      - ./var/org-a/kcfront/cache:/share/container/nginx/cache
+      - ./var/org-a/kcfront/log:/var/log/nginx
+    environment:
+      - TZ=Europe/Berlin
+    healthcheck:
+      test: curl -k --fail --head https://localhost/ || exit 1
+      interval: 10s
+      timeout: 30s
+      retries: 3
+    depends_on:
+      fop-org-a-keycloak:
+        condition: service_healthy
+    networks:
+      default:
+        aliases:
+          - idp-org-a.dev.sonia.de
+
+networks:
+  default:
+    name: fop
+    external: true

@@ -1,0 +1,6 @@
+services:
+
+networks:
+  default:
+    name: fop
+    external: true

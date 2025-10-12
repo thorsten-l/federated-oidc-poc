@@ -1,0 +1,6 @@
+certs/
+var/
+private/
+*.log
+*.tmp
+.DS_Store
