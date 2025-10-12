@@ -1,4 +1,4 @@
-# Federated OIDC Proof Of Concept with permanent redirect Links
+# Federated OIDC Proof Of Concept with permanent redirect links
 
 ## Links
 
