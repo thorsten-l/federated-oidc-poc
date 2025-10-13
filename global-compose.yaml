@@ -57,7 +57,7 @@ services:
     hostname: idp-global.dev.sonia.de
     restart: unless-stopped
     ports:
-      - "10443:443"
+      - "10443:10443"
     volumes:
 # certs
       - ./certs:/etc/kccerts:ro

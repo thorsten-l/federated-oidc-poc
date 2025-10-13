@@ -57,7 +57,7 @@ services:
     hostname: idp-org-b.dev.sonia.de
     restart: unless-stopped
     ports:
-      - "30443:443"
+      - "30443:30443"
     volumes:
 # certs
       - ./certs:/etc/kccerts:ro
