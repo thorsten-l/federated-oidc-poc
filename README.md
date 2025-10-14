@@ -1,20 +1,33 @@
 # Federated OIDC Proof Of Concept with permanent redirect links
 
+## Accounts
+
+### KeyCloak Adminitrators
+
+- user: admin
+- password admin123
+
+### ORG Users
+
+- user: guser1, auser1, buser1
+- password: user123
+
 ## Links
 
 ### Federated / Global
-- [IDP - https://idp-global.dev.sonia.de:10443/](https://idp-global.dev.sonia.de:10443/)
+- IDP - [https://idp-global.dev.sonia.de:10443/](https://idp-global.dev.sonia.de:10443/)
+- Redirect - https://redirect-global.dev.sonia.de:10444/?service-id=(service-id)&idp-hint=(idp-hint)
 
 ### Organization A
-- [IDP - https://idp-org-a.dev.sonia.de:20443/](https://idp-org-a.dev.sonia.de:20443/)
-- [Web - https://web-org-a.dev.sonia.de:20444/](https://web-org-a.dev.sonia.de:20444/)
+- IDP - [https://idp-org-a.dev.sonia.de:20443/](https://idp-org-a.dev.sonia.de:20443/)
+- Web - [https://web-org-a.dev.sonia.de:20444/](https://web-org-a.dev.sonia.de:20444/)
 
 ### Organization B
-- [IDP - https://idp-org-b.dev.sonia.de:30443/](https://idp-org-b.dev.sonia.de:30443/)
-- [Portal - https://portal-org-b.dev.sonia.de:30444/](https://portal-org-b.dev.sonia.de:30444/)
+- IDP - [https://idp-org-b.dev.sonia.de:30443/](https://idp-org-b.dev.sonia.de:30443/)
+- Portal - [https://portal-org-b.dev.sonia.de:30444/](https://portal-org-b.dev.sonia.de:30444/)
 
 ### Services
-- [APP1 - https://app1-service.dev.sonia.de:40443/](https://app1-service.dev.sonia.de:40443:40443/)
+- APP1 - [https://app1-service.dev.sonia.de:40443/](https://app1-service.dev.sonia.de:40443:40443/)
 
 ## /etc/hosts
 ```text
