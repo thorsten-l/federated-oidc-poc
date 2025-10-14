@@ -1,12 +1,12 @@
 services:
 
-  app1-service:
+  fop-service-app1:
     image: ghcr.io/thorsten-l/l9g-oidc-info:latest
-    container_name: app1-service
+    container_name: fop-service-app1
     hostname: app1-service.dev.sonia.de
     restart: unless-stopped
     volumes:
-      - ./data/global/app1/config.yaml:/workspace/config.yaml
+      - ./data/service/app1/config.yaml:/workspace/config.yaml
       - ./certs/dev.sonia.de/server.p12:/workspace/server.p12
     environment:
       - TZ=Europe/Berlin

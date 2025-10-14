@@ -83,6 +83,22 @@ services:
         aliases:
           - idp-global.dev.sonia.de
 
+  fop-global-redirect:
+    image: ghcr.io/thorsten-l/l9g-oidc-redirect:latest
+    container_name: fop-global-redirect
+    hostname: redirect-global.dev.sonia.de
+    restart: unless-stopped
+    volumes:
+      - ./data/global/redirect/config.yaml:/workspace/config.yaml
+      - ./certs/dev.sonia.de/server.p12:/workspace/server.p12
+    environment:
+      - TZ=Europe/Berlin
+    ports:
+      - "10444:10444"
+    depends_on:
+      fop-global-nginx:
+        condition: service_healthy
+
 networks:
   default:
     name: fop

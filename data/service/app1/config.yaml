@@ -33,7 +33,7 @@ server:
 logging:
   level:
     root: INFO
-    l9g: TRACE
+    l9g: INFO
 
 app:
   development: true

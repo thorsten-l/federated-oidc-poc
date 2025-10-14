@@ -1,0 +1,52 @@
+spring:
+  ssl:
+    bundle:
+      jks:
+        web-server:
+          key:
+            alias: "server"
+            password: "storepass"
+          keystore:
+            location: "file:server.p12"
+            password: "storepass"
+            type: "PKCS12"
+
+server:
+  port: 10444
+  servlet:
+    session:
+      timeout: 8h
+
+logging:
+  level:
+    root: INFO
+    l9g: INFO
+    
+oidc:
+  discovery-uri: https://idp-global.dev.sonia.de:10443/realms/global/.well-known/openid-configuration
+
+oauth2:
+  redirect-uri: http://redirect-global.dev.sonia.de:10444/login
+  post-logout-redirect-uri: http://redirect-global.dev.sonia.de:10444/logout
+  client:
+    id: redirect-global
+    secret: m80RbV46bzvYrQ6zuKd0zbOXt4IHbkdw
+    scope: openid profile email roles
+    userid: preferred_username
+    
+valid-idp-hints: org-a,org-b
+    
+redirect-services:
+  map:
+    app1-service:
+      service-uri: https://app1-service.dev.sonia.de:40443/app
+      enabled: true
+    sample-service1:
+      service-uri: https://sample1-service.dev.sonia.de
+      enabled: false
+    sample-service2:
+      service-uri: https://sample2-service.dev.sonia.de
+      enabled: false
+    sample-service3:
+      service-uri: https://sample3-service.dev.sonia.de
+      enabled: false
