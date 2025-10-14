@@ -1,0 +1,45 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          app:
+            client-id: app1-service
+            client-secret: CCGFmXCK2GaVcnkM6HFgwajjKJDtnSZF
+            scope: openid,profile,email,roles
+        provider:
+          app:
+            issuer-uri: https://idp-global.dev.sonia.de:10443/realms/global
+            user-name-attribute: preferred_username
+
+  ssl:
+    bundle:
+      jks:
+        web-server:
+          key:
+            alias: "server"
+            password: "storepass"
+          keystore:
+            location: "file:server.p12"
+            password: "storepass"
+            type: "PKCS12"
+
+server:
+  port: 40443
+  servlet:
+    session:
+      timeout: 8h
+
+logging:
+  level:
+    root: INFO
+    l9g: TRACE
+
+app:
+  development: true
+  oauth2:
+    registration-id: app
+    client-id: app1-service
+  debug-oidc: true
+  default:
+    locale: de

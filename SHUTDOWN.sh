@@ -1,5 +1,6 @@
-#!/bin/bash
-# docker compose -f service-compose.yaml down
+#!/bin/bash -v
+docker compose -f service-compose.yaml down
+sleep 3
 docker compose -f org-b-compose.yaml down
 sleep 3
 docker compose -f org-a-compose.yaml down
