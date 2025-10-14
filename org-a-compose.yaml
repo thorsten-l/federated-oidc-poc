@@ -83,6 +83,39 @@ services:
         aliases:
           - idp-org-a.dev.sonia.de
 
+  fop-org-a-webfront:
+    image: nginx:1
+    container_name: fop-org-a-webfront
+    hostname: idp-org-a.dev.sonia.de
+    restart: unless-stopped
+    ports:
+      - "20444:20444"
+    volumes:
+# certs
+      - ./certs:/etc/kccerts:ro
+# configuration
+      - ./data/org-a/webfront/etc/proxy.conf:/etc/nginx/proxy.conf:ro
+      - ./data/org-a/webfront/etc/ssl.conf:/etc/nginx/ssl.conf:ro
+      - ./data/org-a/webfront/etc/web-org-a.dev.sonia.de.conf:/etc/nginx/conf.d/web-org-a.dev.sonia.de.conf:ro
+      - ./data/org-a/webfront/html:/usr/share/nginx/html:ro
+# various data
+      - ./var/org-a/webfront/cache:/share/container/nginx/cache
+      - ./var/org-a/webfront/log:/var/log/nginx
+    environment:
+      - TZ=Europe/Berlin
+    healthcheck:
+      test: curl -k --fail --head https://localhost:20444/ || exit 1
+      interval: 10s
+      timeout: 30s
+      retries: 3
+    depends_on:
+      fop-org-a-nginx:
+        condition: service_healthy
+    networks:
+      default:
+        aliases:
+          - web-org-a.dev.sonia.de
+
 networks:
   default:
     name: fop

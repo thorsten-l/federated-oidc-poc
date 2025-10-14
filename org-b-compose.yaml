@@ -83,6 +83,27 @@ services:
         aliases:
           - idp-org-b.dev.sonia.de
 
+  fop-org-b-portal:
+    image: ghcr.io/thorsten-l/l9g-oidc-portal:latest
+    container_name: fop-org-b-portal
+    hostname: portal-org-b.dev.sonia.de
+    restart: unless-stopped
+    volumes:
+      - ./certs/dev.sonia.de/server.p12:/workspace/server.p12:ro
+      - ./data/org-b/portal/config.yaml:/workspace/config.yaml:ro
+      - ./data/org-b/portal/templates:/workspace/templates:ro
+    environment:
+      - TZ=Europe/Berlin
+    ports:
+      - "30444:30444"
+    depends_on:
+      fop-org-b-nginx:
+        condition: service_healthy
+    networks:
+      default:
+        aliases:
+          - portal-org-b.dev.sonia.de
+
 networks:
   default:
     name: fop
