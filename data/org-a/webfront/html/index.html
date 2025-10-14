@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>ORG-A Hochschule – Startseite</title>
+        <meta name="description" content="ORG-A Hochschule: Forschung, Lehre und digitale Services. Entdecke den neuen App1-Service mit nahtlosem IdP-Redirect über die OIDC-Föderation." />
+        <meta name="theme-color" content="#0d1b2a" />
+
+        <!-- Open Graph -->
+        <meta property="og:title" content="ORG-A Hochschule – Startseite" />
+        <meta property="og:description" content="App1-Service: Nahtloser Redirect mit vorausgefülltem IdP – sichere OAuth2-Token über die OIDC-Föderation." />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="de_DE" />
+
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="ORG-A Hochschule – Startseite" />
+        <meta name="twitter:description" content="App1-Service: Föderierte Authentifizierung, vorausgewählter IdP, sichere Token, nahtlose Nutzung." />
+
+        <style>
+            :root {
+                --bg: #0d1b2a;
+                --bg-alt: #0f2a3a;
+                --card: #e6f0f8;
+                --ink: #0b132b;
+                --ink-soft: #2c3e50;
+                --accent: #3a86ff;
+                --accent-2: #00c2ff;
+                --ok: #2ec4b6;
+                --warn: #ffbe0b;
+                --radius: 14px;
+                --shadow: 0 10px 30px rgba(0,0,0,0.18);
+            }
+
+            * { box-sizing: border-box; }
+            html, body { height: 100%; }
+            body {
+                margin: 0;
+                font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+                color: var(--ink);
+                background: linear-gradient(160deg, #f7fbff 0%, #eef6ff 100%);
+            }
+
+            header {
+                background: radial-gradient(1200px 600px at 10% -10%, #3a86ff22, transparent 60%),
+                            linear-gradient(180deg, #ffffff 0%, #f2f8ff 100%);
+                border-bottom: 1px solid #e4eef8;
+            }
+
+            .container {
+                max-width: 1100px;
+                margin: 0 auto;
+                padding: 24px;
+            }
+
+            .brand {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+            }
+
+            .brand svg {
+                width: 64px;
+                height: 64px;
+                flex: 0 0 auto;
+                filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15));
+            }
+
+            .brand h1 {
+                font-size: 1.8rem;
+                margin: 0;
+                line-height: 1.2;
+                color: var(--ink);
+            }
+
+            nav {
+                margin-top: 12px;
+                display: flex;
+                gap: 14px;
+                flex-wrap: wrap;
+            }
+
+            nav a {
+                text-decoration: none;
+                color: var(--ink-soft);
+                padding: 8px 12px;
+                border-radius: 10px;
+                transition: background 0.2s ease, color 0.2s ease;
+            }
+            nav a:hover { background: #eaf3ff; color: var(--ink); }
+
+            .hero {
+                display: grid;
+                grid-template-columns: 1.2fr 1fr;
+                gap: 28px;
+                align-items: center;
+                padding: 28px 0 10px;
+            }
+
+            .hero h2 {
+                font-size: 2.2rem;
+                margin: 0 0 10px 0;
+                color: var(--ink);
+            }
+            .hero p {
+                margin: 0 0 16px 0;
+                color: var(--ink-soft);
+                font-size: 1.05rem;
+            }
+
+            .cta-row {
+                display: flex;
+                gap: 12px;
+                flex-wrap: wrap;
+            }
+
+            .btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                padding: 12px 16px;
+                border-radius: 12px;
+                border: 1px solid #d7e6f7;
+                background: white;
+                color: var(--ink);
+                text-decoration: none;
+                box-shadow: var(--shadow);
+                transition: transform 0.08s ease, box-shadow 0.2s ease, background 0.2s ease;
+                will-change: transform;
+            }
+            .btn:hover { transform: translateY(-1px); box-shadow: 0 14px 36px rgba(0,0,0,0.2); }
+            .btn.primary {
+                background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+                color: white;
+                border: none;
+            }
+
+            .card {
+                background: white;
+                border: 1px solid #e3edf7;
+                border-radius: var(--radius);
+                box-shadow: var(--shadow);
+                padding: 20px;
+            }
+
+            .grid {
+                display: grid;
+                gap: 20px;
+            }
+
+            .features {
+                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            }
+
+            .article {
+                display: grid;
+                grid-template-columns: 2fr 1fr;
+                gap: 22px;
+            }
+
+            .badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 8px 12px;
+                border-radius: 999px;
+                background: #ecf5ff;
+                color: #114e96;
+                font-weight: 600;
+                font-size: 0.92rem;
+            }
+
+            .stat {
+                display: grid;
+                grid-template-columns: auto 1fr;
+                gap: 8px 14px;
+                align-items: center;
+            }
+            .stat span {
+                color: var(--ink-soft);
+            }
+
+            footer.site {
+                border-top: 1px solid #e4eef8;
+                margin-top: 36px;
+                padding: 20px 0 32px;
+                color: #5b6b7c;
+                font-size: 0.95rem;
+                background: linear-gradient(180deg, #ffffff 0%, #f6fbff 100%);
+            }
+
+            code, .mono {
+                font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+                background: #f3f7fb;
+                border: 1px solid #e2ecf6;
+                padding: 2px 6px;
+                border-radius: 6px;
+            }
+
+            section {
+                margin-top: 1em;
+            }
+
+            @media (max-width: 900px) {
+                .hero { grid-template-columns: 1fr; }
+                .article { grid-template-columns: 1fr; }
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <div class="container">
+                <div class="brand" aria-label="ORG-A Hochschule">
+                    <!-- Inline SVG Logo -->
+                    <svg viewBox="0 0 128 128" role="img" aria-label="ORG-A Logo" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0%" stop-color="#3a86ff"/>
+                                <stop offset="100%" stop-color="#00c2ff"/>
+                            </linearGradient>
+                            <linearGradient id="g2" x1="0" y1="1" x2="1" y2="0">
+                                <stop offset="0%" stop-color="#2ec4b6"/>
+                                <stop offset="100%" stop-color="#21a19a"/>
+                            </linearGradient>
+                            <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+                                <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.16"/>
+                            </filter>
+                        </defs>
+                        <!-- Shield base -->
+                        <path d="M64 8c16 12 32 12 48 12v38c0 28-22 46-48 62-26-16-48-34-48-62V20c16 0 32 0 48-12z"
+                              fill="url(#g1)" filter="url(#soft)"/>
+                        <!-- Inner motif: stylized A -->
+                        <path d="M64 30l-20 56h10l5-14h20l5 14h10L74 30h-10zm2 14l7 20H59l7-20z"
+                              fill="white" opacity="0.95"/>
+                        <!-- Orbit ring -->
+                        <circle cx="64" cy="64" r="46" fill="none" stroke="url(#g2)" stroke-width="4" stroke-dasharray="10 6" opacity="0.9"/>
+                        <!-- Spark -->
+                        <circle cx="98" cy="40" r="4" fill="#ffbe0b"/>
+                        <title>ORG-A – Lernen, Forschen, Verbinden</title>
+                    </svg>
+                    <div>
+                        <h1>ORG-A Hochschule</h1>
+                        <div class="badge" title="Mitglied der gemeinsamen Föderation">
+                            <span>Föderiert mit OIDC</span>
+                        </div>
+                    </div>
+                </div>
+
+                <nav aria-label="Hauptnavigation">
+                    <a href="#app1">App1-Service</a>
+                    <a href="#forschung">Forschung</a>
+                    <a href="#studium">Studium</a>
+                    <a href="#technik">Technik</a>
+                    <a href="#kontakt">Kontakt</a>
+                </nav>
+
+                <section class="hero">
+                    <div>
+                        <h2>Digitale Exzellenz für Lehre und Forschung</h2>
+                        <p>
+                            Willkommen an der ORG-A Hochschule. Wir verbinden wissenschaftliche Neugier mit modernen
+                            digitalen Services – sicher, interoperabel und föderiert.
+                        </p>
+                        <div class="cta-row">
+                            <a class="btn primary" href="http://redirect-global.dev.sonia.de:10444/?service-id=app1-service&amp;idp-hint=org-a" target="_blank" rel="noopener">
+                                🚀 Direkt zu App1 (nahtlos)
+                            </a>
+                            <a class="btn" href="#app1">Mehr erfahren</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="stat">
+                            <strong>Nahtloser Redirect</strong>
+                            <span>Der eigene IdP ist vorausgewählt – keine IdP-Auswahl notwendig.</span>
+
+                            <strong>Standardkonform</strong>
+                            <span>OAuth2 und OpenID Connect (OIDC)</span>
+
+                            <strong>Privacy by Design</strong>
+                            <span>Minimierte Datenflüsse, klare Zuständigkeiten</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </header>
+
+        <main class="container">
+            <section id="app1" class="grid article">
+                <article class="card">
+                    <header>
+                        <h3 style="margin-top:0">App1: Föderierte Power für sichere Token – jetzt mit IdP-Autofill</h3>
+                        <p class="mono">URL: <a href="http://redirect-global.dev.sonia.de:10444/?service-id=app1-service&amp;idp-hint=org-a" target="_blank" rel="noopener">http://redirect-global.dev.sonia.de:10444/?service-id=app1-service&amp;idp-hint=org-a</a></p>
+                    </header>
+
+                    <p>
+                        App1 ist der neue Stern am Service-Himmel der Hochschulföderation: Ein intelligenter Dienst,
+                        der Informationen zu OAuth2-Token über die OIDC-Föderation bereitstellt – standardkonform,
+                        interoperabel und mit einem Fokus auf Sicherheit und Datenschutz. Dank <em>redirect-global</em>
+                        wird der IdP der ORG-A automatisch vorausgefüllt. Das bedeutet: Ein Klick, nahtloses Weiterleiten,
+                        keine IdP-Auswahl, sofort produktiv.
+                    </p>
+
+                    <h4>Was macht App1 so besonders?</h4>
+                    <ul>
+                        <li>
+                            <strong>Nahtloser IdP-Redirect:</strong>
+                            Der Parameter <span class="mono">idp-hint=org-a</span> sorgt für die direkte Weiterleitung an
+                            den ORG-A-Identitätsprovider – ohne Zwischenschritte.
+                        </li>
+                        <li>
+                            <strong>Transparente Token-Informationen:</strong>
+                            Strukturierte Einblicke in Claims, Gültigkeitsfenster und Scopes deiner OAuth2-/OIDC-Token.
+                        </li>
+                        <li>
+                            <strong>Security by Standards:</strong>
+                            Unterstützung von Best Practices wie PKCE, kurzen Token-Lebensdauern und klaren Scopes.
+                        </li>
+                    </ul>
+
+                    <h4>Wie passt App1 in die Architektur?</h4>
+                    <p>
+                        In der OIDC-Föderation validiert App1 Signaturen anhand bekannter JWKs der ausstellenden Autorität,
+                        prüft Zeitfenster <tt>iat</tt>, <tt>nbf</tt>, <tt>exp</tt>, verifiziert Audience <tt>aud</tt> und Issuer <tt>iss</tt> und stellt
+                        relevante Claims – etwa <tt>sub</tt>, <tt>email</tt> oder rollenbasierte Attribute – transparent dar.
+                    </p>
+
+                    <h4>Schnellstart</h4>
+                    <ol>
+                        <li>„🚀 Direkt zu App1 (nahtlos)“ klicken.</li>
+                        <li>Automatisch zum ORG-A IdP weitergeleitet werden (kein IdP-Chooser).</li>
+                        <li>Nach erfolgreicher Anmeldung: Token-Informationen in App1 einsehen.</li>
+                    </ol>
+
+                    <h4>Best Practices</h4>
+                    <ul>
+                        <li>Nutze den Authorization-Code-Flow mit PKCE.</li>
+                        <li>Halte Access-Token kurzlebig; Refresh-Token restriktiv einsetzen.</li>
+                        <li>Fordere nur notwendige Scopes an (Prinzip minimaler Rechte).</li>
+                        <li>Verifiziere <tt>aud</tt>, <tt>iss</tt> und Signatur gegen Föderationsmetadaten/JWKs.</li>
+                    </ul>
+
+                    <footer>
+                        <p>
+                            Bereitgestellt von der gemeinsamen Föderation der Hochschulen. Fragen?
+                            <a href="#kontakt">Kontaktiere das ORG-A IT-Team</a>.
+                        </p>
+                    </footer>
+                </article>
+
+                <aside class="card" aria-label="Service-Highlights">
+                    <h4 style="margin-top:0">Highlights</h4>
+                    <ul>
+                        <li>Nahtloser Redirect mit vorausgefülltem IdP</li>
+                        <li>SSO über OIDC-Föderation</li>
+                        <li>Transparente Token-Einsicht</li>
+                        <li>Standardkonforme Sicherheit</li>
+                    </ul>
+                    <a class="btn primary" href="http://redirect-global.dev.sonia.de:10444/?service-id=app1-service&amp;idp-hint=org-a" target="_blank" rel="noopener">🚀 App1 jetzt starten (nahtlos)</a>
+                </aside>
+            </section>
+
+            <section id="technik" class="grid">
+                <article class="card">
+                    <h3 style="margin-top:0">Technischer Deep-Dive: redirect-global Flow</h3>
+
+                    <h4>Übersicht</h4>
+                    <p>
+                        Der <em>redirect-global</em>-Dienst dient als föderationsweiter Einstiegspunkt. Durch Übergabe
+                        des IdP-Hinweises wird die Nutzerin direkt an den zuständigen Identitätsprovider der ORG-A
+                        weitergeleitet, ohne dass eine IdP-Auswahl stattfinden muss. Er eignet sich besonders für
+                        Deep-Links aus Campus-Portalen, LMS, Intranet und mobilen Apps.
+                    </p>
+
+                    <h4>Wichtige URL-Parameter</h4>
+                    <ul>
+                        <li><span class="mono">service-id</span>: Kennzeichnet den Zielservice innerhalb der Föderation, z. B. <span class="mono">app1-service</span>.</li>
+                        <li><span class="mono">idp-hint</span>: Hint für den gewünschten IdP, z. B. <span class="mono">org-a</span>, um den ORG-A IdP vorzugeben.</li>
+                        <li><span class="mono">redirect_uri</span> (optional): Ziel-Callback; falls nicht gesetzt, verwendet App1 die registrierte Standard-URI.</li>
+                        <li><span class="mono">state</span> (empfohlen): CSRF-Schutz, wird unverändert an die Anwendung zurückgereicht.</li>
+                        <li><span class="mono">ui_locales</span> (optional): bevorzugte UI-Sprache, z. B. <span class="mono">de</span>.</li>
+                        <li><span class="mono">prompt</span> (optional): OIDC-Interaktionshinweis, z. B. <span class="mono">login</span> oder <span class="mono">none</span>.</li>
+                    </ul>
+
+                    <h4>Beispiel-Link</h4>
+                    <p class="mono">
+                        http://redirect-global.dev.sonia.de:10444/?service-id=app1-service&amp;idp-hint=org-a&amp;state=abc123
+                    </p>
+
+                    <h4>Ablauf im Überblick</h4>
+                    <ol>
+                        <li>Browser ruft <em>redirect-global</em> mit <span class="mono">service-id</span> und <span class="mono">idp-hint</span> auf.</li>
+                        <li><em>redirect-global</em> ermittelt die passende Autorisierungs-Endpoint-URL des ORG-A IdP.</li>
+                        <li>Weiterleitung zum IdP mit OIDC-Parametern wie <span class="mono">client_id</span>, <span class="mono">redirect_uri</span>, <span class="mono">scope</span>, <span class="mono">response_type</span>, <span class="mono">state</span>, <span class="mono">code_challenge</span>.</li>
+                        <li>Nach erfolgreicher Authentisierung leitet der IdP an App1 zurück; App1 tauscht <span class="mono">code</span> gegen Token, validiert <tt>iss</tt>, <tt>aud</tt>, <tt>exp</tt>, Signatur und zeigt Token-Informationen an.</li>
+                    </ol>
+
+                    <h4>Sicherheitsaspekte</h4>
+                    <ul>
+                        <li><strong>PKCE:</strong> Verwende <span class="mono">code_challenge</span> und <span class="mono">code_verifier</span> im Authorization-Code-Flow.</li>
+                        <li><strong>CSRF:</strong> Setze einen kryptographisch starken <span class="mono">state</span> und prüfe ihn bei der Rückkehr.</li>
+                        <li><strong>Nonce:</strong> Für OIDC-Logins <span class="mono">nonce</span> mitschicken und im ID Token verifizieren.</li>
+                        <li><strong>HTTPS:</strong> Produktiv ausschließlich TLS; die gezeigte <span class="mono">http://</span>-URL ist als Demo/Entwicklung zu verstehen.</li>
+                        <li><strong>Scopes &amp; Consent:</strong> Nur notwendige Scopes anfordern; Consent-UX klar und knapp halten.</li>
+                    </ul>
+
+                    <h4>Fehlerfälle und Handling</h4>
+                    <ul>
+                        <li><strong>invalid_request:</strong> Parameter fehlen/inkonsistent. Lösung: Parameter prüfen, URL-encoding sicherstellen.</li>
+                        <li><strong>login_required:</strong> Session abgelaufen oder <span class="mono">prompt=none</span> ohne aktive Session. Lösung: Ohne <span class="mono">prompt</span> erneut versuchen oder <span class="mono">prompt=login</span>.</li>
+                        <li><strong>access_denied:</strong> Nutzerin bricht ab. Lösung: UX-Hinweis und „Erneut versuchen“-Link.</li>
+                        <li><strong>mismatch redirect_uri:</strong> Callback stimmt nicht. Lösung: In Client-Registry anpassen oder korrekte <span class="mono">redirect_uri</span> senden.</li>
+                    </ul>
+
+                    <h4>Beispiel: PKCE-Berechnung (Client-Seite)</h4>
+                    <pre><code class="language-js">
+// Pseudocode: SHA-256(code_verifier) -> base64url
+async function pkceChallenge(verifier) {
+    const data = new TextEncoder().encode(verifier);
+    const digest = await crypto.subtle.digest('SHA-256', data);
+    const b = String.fromCharCode(...new Uint8Array(digest));
+    return btoa(b).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+                    </code></pre>
+                </article>
+            </section>
+
+            <section id="forschung" class="grid features" aria-label="Forschung und Lehre">
+                <div class="card">
+                    <h4 style="margin-top:0">Exzellente Forschung</h4>
+                    <p>Interdisziplinäre Teams, offene Wissenschaft und reproduzierbare Ergebnisse.</p>
+                </div>
+                <div class="card">
+                    <h4 style="margin-top:0">Innovative Lehre</h4>
+                    <p>Praxisnah, digital unterstützt und kompetenzorientiert.</p>
+                </div>
+                <div class="card">
+                    <h4 style="margin-top:0">Transfer &amp; Kooperation</h4>
+                    <p>Partnerschaften mit Wirtschaft, Kultur und Gesellschaft.</p>
+                </div>
+            </section>
+
+            <section id="studium" class="grid">
+                <div class="card">
+                    <h4 style="margin-top:0">Studium an der ORG-A</h4>
+                    <p>Von der Einführungsveranstaltung bis zur Abschlussarbeit: Wir begleiten dich auf jedem Schritt.</p>
+                </div>
+            </section>
+
+            <section id="kontakt" class="grid">
+                <div class="card">
+                    <h4 style="margin-top:0">Kontakt</h4>
+                    <p class="mono">it-support@org-a.example</p>
+                    <p>Mo–Fr, 09:00–17:00 Uhr (Europe/Berlin)</p>
+                </div>
+            </section>
+        </main>
+
+        <footer class="site">
+            <div class="container">
+                <div>© 2025 ORG-A Hochschule • Mitglied der gemeinsamen OIDC-Föderation</div>
+                <div><a href="#impressum">Impressum</a> • <a href="#datenschutz">Datenschutz</a> • <a href="#barrierefreiheit">Barrierefreiheit</a></div>
+            </div>
+        </footer>
+    </body>
+</html>

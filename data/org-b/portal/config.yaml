@@ -1,0 +1,45 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          app:
+            client-id: portal-org-b
+            client-secret: DhtgP50jKIBuJ8FfaY1gwg58xWmIbmcw
+            scope: openid,profile,email,roles
+        provider:
+          app:
+            issuer-uri: https://idp-org-b.dev.sonia.de:30443/realms/org-b
+            user-name-attribute: preferred_username
+
+  ssl:
+    bundle:
+      jks:
+        web-server:
+          key:
+            alias: "server"
+            password: "storepass"
+          keystore:
+            location: "file:server.p12"
+            password: "storepass"
+            type: "PKCS12"
+
+server:
+  port: 30444
+  servlet:
+    session:
+      timeout: 8h
+
+logging:
+  level:
+    root: INFO
+    l9g: INFO
+
+app:
+  development: true
+  oauth2:
+    registration-id: app
+    client-id: portal-org-b
+  debug-oidc: true
+  default:
+    locale: de
