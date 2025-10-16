@@ -13,6 +13,59 @@ services:
     ports:
       - "40443:40443"
 
+  fop-service-etherpad-db:
+    image: postgres:15
+    container_name: fop-service-etherpad-db
+    environment:
+      POSTGRES_USER: etherpad
+      POSTGRES_PASSWORD: changeMeStrong!
+      POSTGRES_DB: etherpad
+    volumes:
+      - ./var/service/etherpad/db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U etherpad -d etherpad"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  fop-service-etherpad-app:
+    image: ghcr.io/thorsten-l/etherpad:2.5.1
+    container_name: fop-service-etherpad-app
+    depends_on:
+      fop-service-etherpad-db:
+        condition: service_healthy
+    ports:
+      - "9001:9001"
+    environment:
+      - TZ=Europe/Berlin
+      - DB_TYPE=postgres
+      - DB_HOST=fop-service-etherpad-db
+      - DB_PORT=5432
+      - DB_NAME=etherpad
+      - DB_USER=etherpad
+      - DB_PASS=changeMeStrong!
+      - ADMIN_PASSWORD=changeMeStrong!
+      - SSL_KEY=/certs/server.key
+      - SSL_CERT=/certs/server.crt
+      - DEFAULT_PAD_TEXT="Welcome to Etherpad on dev.sonia.de"
+      - PAD_OPTIONS_LANG="de"
+      - PORT=9001
+      - ETHERPAD_TITLE="Etherpad @ dev.sonia.de"
+      - ADMIN_PASSWORD=admin123
+      - USER_PASSWORD=user123
+      - SSO_ISSUER=https://idp-global.dev.sonia.de:10443/realms/global
+      - USER_CLIENT=etherpad-service
+      - USER_SECRET=pbGzsBadCf9qUPlirYcHZ79dr97a8jAL
+      - USER_REDIRECT=https://pad-service.dev.sonia.de:9001/
+      - BASE_URL=https://pad-service.dev.sonia.de:9001
+      - REQUIRE_AUTHENTICATION=true
+      - AUTHENTICATION_METHOD=oidc
+    volumes:
+      - ./data/service/etherpad/app/settings.json:/opt/etherpad-lite/settings.json:ro
+      - ./certs/dev.sonia.de/server.crt:/certs/server.crt:ro
+      - ./certs/dev.sonia.de/server.key:/certs/server.key:ro       
+    restart: unless-stopped
+
 networks:
   default:
     name: fop
