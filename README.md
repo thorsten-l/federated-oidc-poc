@@ -28,6 +28,8 @@
 
 ### Services
 - APP1 - [https://app1-service.dev.sonia.de:40443/](https://app1-service.dev.sonia.de:40443:40443/)
+- Etherpad - [https://pad-service.dev.sonia.de:9001/](https://pad-service.dev.sonia.de:9001/)
+- NextCloud - [https://cloud.dev.sonia.de/](https://cloud.dev.sonia.de/)
 
 ## /etc/hosts
 ```text
@@ -47,6 +49,8 @@
 127.0.0.1   portal-org-b.dev.sonia.de
 
 # Service provider for application 1
-# - https://<name>:40443
+# - https://<name>:40443,9001
 127.0.0.1   app1-service.dev.sonia.de
+127.0.0.1   pad-service.dev.sonia.de
+127.0.0.1   cloud.dev.sonia.de
 ```
