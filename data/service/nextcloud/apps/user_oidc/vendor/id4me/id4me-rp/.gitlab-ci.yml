@@ -1,0 +1,67 @@
+stages:
+  - test
+
+.composer_install: &composer_install |
+  apt-get update && apt-get install -qqy git wget unzip && apt-get autoclean
+  pecl install xdebug-2.7.2 && docker-php-ext-enable xdebug
+
+  EXPECTED_CHECKSUM="$(wget -q -O - https://composer.github.io/installer.sig)"
+  php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+  ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
+
+  if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]
+  then
+      >&2 echo 'ERROR: Invalid installer checksum'
+      rm composer-setup.php
+      exit 1
+  fi
+
+  php composer-setup.php --quiet
+  RESULT=$?
+  rm composer-setup.php
+
+  php composer.phar install
+
+run_tests_70:
+  image: php:7.0
+  stage: test
+  before_script:
+    - *composer_install
+  script:
+    - vendor/bin/phpunit --coverage-text --config phpunit.xml
+
+run_tests_71:
+  image: php:7.1
+  stage: test
+  before_script:
+    - *composer_install
+  script:
+    - vendor/bin/phpunit --coverage-text --config phpunit.xml
+
+run_tests_72:
+  image: php:7.2
+  stage: test
+  before_script:
+    - *composer_install
+  script:
+    - vendor/bin/phpunit --coverage-text --config phpunit.xml
+  coverage: '/^\s*Lines:\s*\d+.\d+\%/'
+
+run_tests_73:
+  image: php:7.3
+  stage: test
+  before_script:
+    - *composer_install
+  script:
+    - vendor/bin/phpunit --coverage-text --config phpunit.xml
+
+run_cs:
+  image: php:7.3
+  stage: test
+  before_script:
+    - *composer_install
+  script:
+    - vendor/bin/phpcs --config-set default_standard PSR2
+    - vendor/bin/phpcs --config-set show_warnings 0
+    - vendor/bin/phpcs src/
+

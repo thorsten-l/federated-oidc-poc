@@ -1,0 +1,12 @@
+vendor
+unused
+.idea
+.settings
+.exampleid4meclientsstore
+keys
+.history
+.phpunit.result.cache
+.DS_Store
+composer.lock
+/.project
+/log

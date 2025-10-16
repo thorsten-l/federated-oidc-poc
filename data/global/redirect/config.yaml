@@ -44,6 +44,9 @@ redirect-services:
     pad-service:
       service-uri: https://pad-service.dev.sonia.de:9001/
       enabled: true
+    cloud-service:
+      service-uri: https://cloud.dev.sonia.de/
+      enabled: true
     sample-service1:
       service-uri: https://sample1-service.dev.sonia.de
       enabled: false

@@ -1,0 +1,112 @@
+# user: admin
+# password: 4Admin12345!
+
+services:
+  fop-service-ncdb:
+    image: postgres:16-alpine
+    container_name: fop-service-ncdb
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: nextcloud
+      POSTGRES_USER: nextcloud
+      POSTGRES_PASSWORD: nextcloud
+    volumes:
+      - ./var/service/ncdb:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} -h 127.0.0.1 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
+  fop-service-ncredis:
+    image: redis:7-alpine
+    container_name: fop-service-ncredis
+    restart: unless-stopped
+    command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
+    volumes:
+      - ./var/service/redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 5s
+
+  fop-service-nextcloud:
+    image: nextcloud:production-apache
+    restart: unless-stopped
+    container_name: fop-service-nextcloud
+    depends_on:
+      fop-service-ncdb:
+        condition: service_healthy
+      fop-service-ncredis:
+        condition: service_healthy
+    environment:
+      # DB
+      POSTGRES_HOST: fop-service-ncdb
+      POSTGRES_DB: nextcloud
+      POSTGRES_USER: nextcloud
+      POSTGRES_PASSWORD: nextcloud
+      # Admin (nur Erstinstallation; bitte ändern)
+      NEXTCLOUD_ADMIN_USER: admin
+      NEXTCLOUD_ADMIN_PASSWORD: admin
+      # Host/Protokoll (nur HTTP, lokal)
+      NEXTCLOUD_TRUSTED_DOMAINS: "cloud.dev.sonia.de localhost nextcloud"
+      OVERWRITEHOST: cloud.dev.sonia.de
+      OVERWRITEPROTOCOL: https
+      OVERWRITECLIURL: "https://cloud.dev.sonia.de"
+      # Redis
+      REDIS_HOST: fop-service-ncredis
+      REDIS_PORT: 6379
+    volumes:
+      # Nur die persistenten Verzeichnisse binden
+      - ./data/service/nextcloud/apps:/var/www/html/custom_apps
+      - ./data/service/nextcloud/config:/var/www/html/config
+      - ./data/service/nextcloud/data:/var/www/html/data
+    extra_hosts:
+      - "cloud.dev.sonia.de:127.0.0.1"
+    healthcheck:
+      test: ["CMD-SHELL", "php -r 'echo file_get_contents(\"http://127.0.0.1/status.php\");' | grep -q '\"installed\":true' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
+
+  # Cron-Container für Background Jobs
+  fop-service-nextcloud-cron:
+    image: nextcloud:production-apache
+    container_name: fop-service-nextcloud-cron
+    restart: unless-stopped
+    command: /cron.sh
+    depends_on:
+      fop-service-ncdb:
+        condition: service_healthy
+      fop-service-ncredis:
+        condition: service_healthy
+      fop-service-nextcloud:
+        condition: service_healthy
+    volumes:
+      - ./data/service/nextcloud/apps:/var/www/html/custom_apps
+      - ./data/service/nextcloud/config:/var/www/html/config
+      - ./data/service/nextcloud/data:/var/www/html/data
+
+  fop-service-haproxy:
+    image: haproxy:lts-alpine
+    container_name: fop-service-haproxy
+    restart: unless-stopped
+    depends_on:
+      fop-service-nextcloud:
+        condition: service_started
+    ports:
+      - "0.0.0.0:80:80"
+      - "0.0.0.0:443:443"
+    volumes:
+      - ./data/service/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+      # PEM-Bundle (siehe unten)
+      - ./certs/dev.sonia.de:/etc/haproxy/certs:ro
+
+networks:
+  default:
+    name: fop
+    external: true

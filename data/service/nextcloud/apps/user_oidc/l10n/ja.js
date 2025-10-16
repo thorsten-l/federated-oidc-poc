@@ -1,0 +1,19 @@
+OC.L10N.register(
+    "user_oidc",
+    {
+    "Error" : "エラー",
+    "Access forbidden" : "アクセスが禁止されています",
+    "Client ID" : "クライアント ID",
+    "Update" : "更新",
+    "Remove" : "削除",
+    "Confirm deletion" : "削除の確認",
+    "Cancel" : "キャンセル",
+    "Delete" : "削除",
+    "Submit" : "提出する",
+    "Client secret" : "クライアントシークレット",
+    "Scope" : "スコープ",
+    "Attribute mapping" : "属性マッピング",
+    "Back to %s" : "%s に戻る",
+    "Domain" : "ドメイン"
+},
+"nplurals=1; plural=0;");

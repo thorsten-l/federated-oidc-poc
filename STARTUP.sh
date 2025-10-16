@@ -8,4 +8,6 @@ sleep 3
 echo "Starting up org b..."
 docker compose -f org-b-compose.yaml up -d
 sleep 3
+echo "Starting up services..."
 docker compose -f service-compose.yaml up -d
+docker compose -f service-nextcloud-compose.yaml up -d

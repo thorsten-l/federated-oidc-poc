@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>user_oidc</id>
+	<name>OpenID Connect user backend</name>
+	<summary>Use an OpenID Connect backend to login to your Nextcloud</summary>
+	<description>Allows flexible configuration of an OIDC server as Nextcloud login user backend.</description>
+	<version>8.1.0</version>
+	<licence>agpl</licence>
+	<author>Roeland Jago Douma</author>
+	<author>Julius Härtl</author>
+	<author>Bernd Rederlechner</author>
+	<namespace>UserOIDC</namespace>
+	<types>
+		<authentication/>
+	</types>
+	<category>integration</category>
+	<category>social</category>
+	<website>https://github.com/nextcloud/user_oidc</website>
+	<bugs>https://github.com/nextcloud/user_oidc/issues</bugs>
+	<repository>https://github.com/nextcloud/user_oidc</repository>
+	<dependencies>
+		<nextcloud min-version="29" max-version="33"/>
+	</dependencies>
+	<settings>
+		<admin>OCA\UserOIDC\Settings\AdminSettings</admin>
+		<admin-section>OCA\UserOIDC\Settings\Section</admin-section>
+	</settings>
+
+	<background-jobs>
+		<job>OCA\UserOIDC\Cron\CleanupSessions</job>
+	</background-jobs>
+	<commands>
+		<command>OCA\UserOIDC\Command\UpsertProvider</command>
+		<command>OCA\UserOIDC\Command\DeleteProvider</command>
+	</commands>
+</info>

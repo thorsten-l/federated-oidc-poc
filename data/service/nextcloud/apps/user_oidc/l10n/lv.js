@@ -1,0 +1,19 @@
+OC.L10N.register(
+    "user_oidc",
+    {
+    "Login with %1s" : "Pieteikties ar %1s",
+    "Error" : "Kļūda",
+    "Access forbidden" : "Piekļuve ir liegta",
+    "ID4Me is disabled" : "ID4Me ir atspējota",
+    "Invalid OpenID domain" : "Nederīgs OpenID domēns",
+    "Client ID" : "Klienta ID",
+    "Update" : "Atjaunināt",
+    "Remove" : "Noņemt",
+    "Cancel" : "Atcelt",
+    "Delete" : "Izdzēst",
+    "Submit" : "Iesniegt",
+    "Scope" : "Darbības joma",
+    "Authentication and Access Control Settings" : "Autentificēšanās un piekļuves vadības iestatījumi",
+    "Domain" : "Domain"
+},
+"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

@@ -1,0 +1,19 @@
+OC.L10N.register(
+    "user_oidc",
+    {
+    "Error" : "Error",
+    "Access forbidden" : "Accés prohibit",
+    "Client ID" : "ID del client",
+    "Update" : "Actualitza",
+    "Remove" : "Suprimir",
+    "Confirm deletion" : "Confirma la supressió",
+    "Cancel" : "Cancel·la",
+    "Delete" : "Suprimir",
+    "Submit" : "Envia",
+    "Client secret" : "Secret del client",
+    "Scope" : "Abast",
+    "Attribute mapping" : "Mapatge d’atributs",
+    "Back to %s" : "Torna a %s",
+    "Domain" : "Domini"
+},
+"nplurals=2; plural=(n != 1);");
